@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+    <!--[if lt IE 7]><html lang="en" ng-app="testTable" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]><html lang="en" ng-app="testTable" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]><html lang="en" ng-app="testTable" class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--><html lang="en" ng-app="testTable" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Test MySQL</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/app.css">
+    </head>
+    <body>
+        <script src="/webjars/angularjs/1.6.2/angular.js"></script>
+        <script src="/webjars/angularjs/1.6.2/angular-resource.js"></script>
+        <script src="/webjars/angularjs/1.6.2/angular-route.js"></script>
+        <script src="/js/testTable.js"></script>
+        <script src="/js/testController.js"></script>
+        <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.css"/>
+        <div ng-app="testTable" ng-controller="testControler">
+            <div ng-show="error">
+                <h2>{{ errorMessage }}</h2>
+            </div>
+            <div ng-show="containsData" class="panel panel-primary">
+                <div class="panel-heading text-left">
+            <span>
+                Name: <input type="text" ng-model="inputName" style="color:#000000"/>
+            </span>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover">
+                        <tr class="row">
+                            <th class="col-md-4">
+                                <a href="" ng-click="sortFunction('id'); sortBy = 'id';">
+                                    <span ng-show="sortBy != 'id'" class="glyphicon glyphicon-sort"></span>
+                                    <span ng-show="sortBy == 'id' && !sortReverse" class="glyphicon glyphicon-arrow-up"></span>
+                                    <span ng-show="sortBy == 'id' && sortReverse" class="glyphicon glyphicon-arrow-down"></span>
+                                    ID
+                                </a>
+                            </th>
+                            <th class="col-md-4">
+                                <a href="" ng-click="sortFunction('name'); sortBy = 'name';">
+                                    <span ng-show="sortBy != 'name'" class="glyphicon glyphicon-sort"></span>
+                                    <span ng-show="sortBy == 'name' && !sortReverse" class="glyphicon glyphicon-arrow-up"></span>
+                                    <span ng-show="sortBy == 'name' && sortReverse" class="glyphicon glyphicon-arrow-down"></span>
+                                    NAME
+                                </a>
+                            </th>
+                            <th class="col-md-4">
+                                DELETE
+                            </th>
+                        </tr>
+                        <tr class="row" ng-repeat="test in testArray = (tests | filter:{name:inputName}) | orderBy:sortBy:sortReverse | limitTo:pageSize:currentPage*pageSize track by $index"
+                            ng-click="isSelected(message)">
+                            <td class="col-md-4">{{ test.id }}</td>
+                            <td class="col-md-4">{{ test.name }}</td>
+                            <td class="col-md-4">
+                                <button ng-click="delete(test.id)" class="btn-danger btn-md glyphicon glyphicon-remove" data-toggle="tooltip" data-placement="top" title="Delete Test"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-primary">
+                    <div class="panel-heading text-left">
+                        Add Test
+                    </div>
+                    <div class="panel-body">
+                        Name: <input ng-model="newName" type="text"/>
+                        <button ng-click="addTest()">Submit</button>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <ul class="pagination" ng-if="totalPages > 1">
+                        <li ng-class="{disabled:currentPage == 0}">
+                            <a href = "" ng-click="setPage(0)">First</a>
+                        </li>
+                        <li ng-class="{disabled:currentPage == 0}">
+                            <a href = "" ng-click="setPage(currentPage - 1)">Previous</a>
+                        </li>
+                        <li ng-repeat="page in pageRange(testArray.length)" ng-class="{active:currentPage == page}">
+                            <a href = "" ng-click="setPage(page)">{{ page + 1 }}</a>
+                        </li>
+                        <li ng-class="{disabled:currentPage == totalPages - 1}">
+                            <a href = "" ng-click="setPage(currentPage + 1)">Next</a>
+                        </li>
+                        <li ng-class="{disabled:currentPage == totalPages - 1}">
+                            <a href = "" ng-click="setPage(totalPages - 1)">Last</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </body>
+</html>

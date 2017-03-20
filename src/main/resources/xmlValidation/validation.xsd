@@ -1,0 +1,21 @@
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+    <!--<xs:element name="Tests">-->
+        <!--<xs:complexType>-->
+            <!--<xs:sequence>-->
+                <!--<xs:element ref="Test" minOccurs='1' maxOccurs='unbounded'/>-->
+            <!--</xs:sequence>-->
+        <!--</xs:complexType>-->
+    <!--</xs:element>-->
+
+    <xs:element name="Test">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="id" minOccurs='0' maxOccurs='1'/>
+                <xs:element ref="name" minOccurs='1' maxOccurs='1'/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="name" type='xs:string'/>
+    <xs:element name="id" type='xs:integer'/>
+</xs:schema>
